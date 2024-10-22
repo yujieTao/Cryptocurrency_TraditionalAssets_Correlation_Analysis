@@ -1,0 +1,3 @@
+HDF format: 0.099080 seconds
+Feather format: 0.212677 seconds
+Parquet format: 0.749931 seconds
