@@ -5,9 +5,13 @@ Credits
 Development Lead
 ----------------
 
-* Zihan Yujie Wenqian <zihan.liu@uzh.ch>
+* Zihan liu <zihan.liu@uzh.ch>
+* Yujie Tao
+* Wenqian Yang
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Editor One <editor1@example.com>
+* Editor Two <editor2@example.com>
+* Editor Three <editor3@example.com>
