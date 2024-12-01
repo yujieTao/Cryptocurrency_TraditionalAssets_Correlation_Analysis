@@ -1,3 +1,4 @@
-# Correlation of traditional assests and cryptocurrencies
-we use bitcoin for this topic
 
+docker build -t data-module ./src/data
+docker-compose up data
+![alt text](image.png)
