@@ -1,14 +1,5 @@
-import yfinance as yf
 import ccxt
-
-
-def fetch_traditional_assets(tickers, start, end):
-    try:
-        data = yf.download(tickers, start=start, end=end)['Adj Close']
-        return data
-    except Exception as e:
-        print(f"Failed download: {tickers}: {e}")
-        return pd.DataFrame()
+import pandas as pd
 
 def fetch_crypto_data(symbol, start, end):
     try:
@@ -19,7 +10,8 @@ def fetch_crypto_data(symbol, start, end):
         df['date'] = pd.to_datetime(df['timestamp'], unit='ms').dt.date
         df = df.set_index('date')['close']
         df = df[start.date():end.date()]
+        print("Crypto data fetched successfully.")
         return df
     except Exception as e:
-        print(f"Failed to fetch crypto data for {symbol}: {e}")
+        print(f"Error fetching crypto data: {e}")
         return pd.Series()
