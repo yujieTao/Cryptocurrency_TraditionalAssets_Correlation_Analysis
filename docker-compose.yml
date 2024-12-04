@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src/data/processed_data:/app/processed_data
-    command: python scripts/process_data.py
 
   models:
     build:
@@ -16,6 +15,6 @@ services:
     depends_on:
       - data
     volumes:
-      - ./src/data/processed_data:/app/processed_data
-      - ./src/models/results:/app/results
-    command: python scripts/correlation_analysis.py /app/processed_data/processed_data.csv
+      - ./src/data/processed_data:/app/processed_data  
+      - ./src/models/results:/app/results     
+    command: python scripts/lstm.py /app/processed_data/processed_data.csv
