@@ -4,76 +4,94 @@ from statsmodels.tsa.api import VAR
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-# 获取当前脚本所在的目录
-current_dir = os.path.dirname(os.path.abspath(__file__))
+class DataProcessor:
+    def __init__(self, data_path):
+        self.data_path = data_path
+        self.data = None
 
-# 获取 src 所在的目录
-parent_dir = os.path.dirname(os.path.dirname(current_dir))
+    def load_data(self):
+        self.data = pd.read_csv(self.data_path, index_col=0, parse_dates=True)
+        return self.data
 
-# 构造相对路径
-data_path = os.path.join(parent_dir, 'data', 'processed_data', 'processed_data.csv')
+    def check_missing_values(self):
+        print("Missing values per column:")
+        print(self.data.isnull().sum())
 
-# 加载数据并解析时间列为日期类型
-data = pd.read_csv(data_path, index_col=0, parse_dates=True)
+    def fill_missing_values(self):
+        self.data = self.data.fillna(method='ffill').fillna(method='bfill')
 
-# 检查是否有缺失值
-print("Missing values per column:")
-print(data.isnull().sum())
+    def check_date_range(self):
+        print(f"Data index range: {self.data.index.min()} to {self.data.index.max()}")
 
-# 填充缺失值（前向填充）
-data = data.fillna(method='ffill').fillna(method='bfill')
+    def normalize_data(self):
+        return self.data / self.data.max()
 
-# 检查时间范围是否对齐
-print(f"Data index range: {data.index.min()} to {data.index.max()}")
+class VARModel:
+    def __init__(self, data):
+        self.data = data
+        self.model = VAR(data)
+        self.result = None
 
-# 归一化数据以解决波动范围差异问题
-normalized_data = data / data.max()
+    def select_best_lag(self):
+        lag_order = self.model.select_order()
+        print(lag_order.summary())
+        best_lag = lag_order.selected_orders['aic']
+        print(f"Best lag order: {best_lag}")
+        return best_lag
 
-# 初始化 VAR 模型
-model = VAR(data)
+    def fit_model(self, best_lag):
+        self.result = self.model.fit(best_lag)
+        print(self.result.summary())
 
-# 选择最佳滞后阶数
-lag_order = model.select_order()
-print(lag_order.summary())
+    def test_causality(self):
+        for col in self.data.columns:
+            if col != 'BTC-USD':
+                test = self.result.test_causality('BTC-USD', col, kind='f')
+                print(f"Causality of BTC-USD on {col}:")
+                print(test.summary())
 
-# 获取最佳滞后阶数
-best_lag = lag_order.selected_orders['aic']
-print(f"Best lag order: {best_lag}")
+class Plotter:
+    def __init__(self, data):
+        self.data = data
 
-# 使用最佳滞后阶数拟合模型
-var_result = model.fit(best_lag)
+    def plot_normalized_data(self, output_path):
+        plt.figure(figsize=(12, 6))
+        for col in self.data.columns:
+            plt.plot(self.data.index, self.data[col], label=col)
 
-# 打印模型结果
-print(var_result.summary())
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y/%m'))
+        plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+        plt.gcf().autofmt_xdate()
 
-# 检查 BTC 对其他变量的因果关系
-for col in data.columns:
-    if col != 'BTC':
-        test = var_result.test_causality('BTC', col, kind='f')
-        print(f"Causality of BTC on {col}:")
-        print(test.summary())
+        plt.legend()
+        plt.title('Normalized Asset Prices (BTC, AGG, GLD, SPY)')
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        print(f"Plot saved to: {output_path}")
+        plt.show()
 
-# 绘制归一化后的时间序列图
-plt.figure(figsize=(12, 6))
-for col in normalized_data.columns:
-    plt.plot(normalized_data.index, normalized_data[col], label=col)
+def main():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(os.path.dirname(current_dir))
+    data_path = os.path.join(parent_dir, 'data', 'processed_data', 'processed_data.csv')
 
-# 设置 x 轴日期格式为年/月，并以月为单位递增
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y/%m'))
-plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))  # 每月显示一个标签
+    processor = DataProcessor(data_path)
+    data = processor.load_data()
+    processor.check_missing_values()
+    processor.fill_missing_values()
+    processor.check_date_range()
+    normalized_data = processor.normalize_data()
 
-# 自动调整日期标签以避免重叠
-plt.gcf().autofmt_xdate()
+    var_model = VARModel(data)
+    best_lag = var_model.select_best_lag()
+    var_model.fit_model(best_lag)
+    var_model.test_causality()
 
-plt.legend()
-plt.title('Normalized Asset Prices (BTC, AGG, GLD, SPY)')
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, 'normalized_asset_prices.png')
 
-# 保存图片到 output 目录
-output_dir = "output"
-os.makedirs(output_dir, exist_ok=True)  # 如果目录不存在，则创建
-output_path = os.path.join(output_dir, 'normalized_asset_prices.png')
-plt.savefig(output_path, dpi=300, bbox_inches='tight')
-print(f"Plot saved to: {output_path}")
+    plotter = Plotter(normalized_data)
+    plotter.plot_normalized_data(output_path)
 
-# 显示图片
-plt.show()
+if __name__ == "__main__":
+    main()
