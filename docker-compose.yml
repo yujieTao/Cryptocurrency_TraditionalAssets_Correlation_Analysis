@@ -16,5 +16,4 @@ services:
       - data
     volumes:
       - ./src/data/processed_data:/app/processed_data  
-      - ./src/models/results:/app/results     
-    command: python scripts/lstm.py /app/processed_data/processed_data.csv
+      - ./src/models/results:/app/results 

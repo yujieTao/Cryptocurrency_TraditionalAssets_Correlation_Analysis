@@ -1,134 +1,95 @@
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
-from datetime import timedelta
 from statsmodels.tsa.api import VAR
-from statsmodels.tsa.stattools import adfuller, grangercausalitytests
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
-# 检查平稳性
-def check_stationarity(series, name="Time Series"):
-    try:
-        result = adfuller(series)
-        print(f"{name} ADF Statistic: {result[0]}")
-        print(f"{name} p-value: {result[1]}")
-        if result[1] < 0.05:
-            print(f"{name} is stationary.")
-        else:
-            print(f"{name} is not stationary. Consider differencing.")
-    except Exception as e:
-        print(f"Error checking stationarity for {name}: {e}")
+class DataProcessor:
+    def __init__(self, data_path):
+        self.data_path = data_path
+        self.data = None
 
-# 构建 VAR 模型
-def build_var_model(data, lags=5):
-    model = VAR(data)
-    var_result = model.fit(lags)
-    print(var_result.summary())
-    return var_result
+    def load_data(self):
+        self.data = pd.read_csv(self.data_path, index_col=0, parse_dates=True)
+        return self.data
 
-# 选择滞后期
-def select_lag(data):
-    model = VAR(data)
-    lag_order = model.select_order(maxlags=10)
-    print("Optimal Lag Order:")
-    print(lag_order.summary())
-    return lag_order
+    def check_missing_values(self):
+        print("Missing values per column:")
+        print(self.data.isnull().sum())
 
-# 预测
-def forecast_var(model, steps=10, start_date=None):
-    """
-    使用 VAR 模型预测未来值，并生成时间索引
-    """
-    last_values = model.endog[-model.k_ar:]  # 提取最后 k_ar 条记录（滞后期）
-    forecast = model.forecast(last_values, steps=steps)
+    def fill_missing_values(self):
+        self.data = self.data.fillna(method='ffill').fillna(method='bfill')
 
-    forecast_df = pd.DataFrame(forecast, columns=model.names)
+    def check_date_range(self):
+        print(f"Data index range: {self.data.index.min()} to {self.data.index.max()}")
 
-    # 设置时间索引
-    if start_date:
-        forecast_dates = pd.date_range(start=start_date, periods=steps, freq='D')
-        forecast_df.index = forecast_dates
-    else:
-        raise ValueError("start_date must be provided for generating forecast dates.")
+    def normalize_data(self):
+        return self.data / self.data.max()
 
-    print(f"Forecast data starts from: {forecast_df.index[0]}")
-    print(f"Forecast data ends at: {forecast_df.index[-1]}")
-    return forecast_df
+class VARModel:
+    def __init__(self, data):
+        self.data = data
+        self.model = VAR(data)
+        self.result = None
 
+    def select_best_lag(self):
+        lag_order = self.model.select_order()
+        print(lag_order.summary())
+        best_lag = lag_order.selected_orders['aic']
+        print(f"Best lag order: {best_lag}")
+        return best_lag
 
-# 可视化预测结果
-def plot_forecast(forecast, data, steps=10, save_path="output/forecast_plot.png"):
-    """
-    可视化预测结果，与实际值对比
-    """
-    plt.figure(figsize=(12, 6))
+    def fit_model(self, best_lag):
+        self.result = self.model.fit(best_lag)
+        print(self.result.summary())
 
-    for column in data.columns:
-        # 绘制预测值
-        plt.plot(forecast.index, forecast[column], label=f"Forecast {column}")
+    def test_causality(self):
+        for col in self.data.columns:
+            if col != 'BTC':
+                test = self.result.test_causality('BTC', col, kind='f')
+                print(f"Causality of BTC on {col}:")
+                print(test.summary())
 
-        # 提取实际值的最后时间范围，与预测对齐
-        actual_slice = data.loc[forecast.index]  # 直接使用预测的时间范围
-        plt.plot(actual_slice.index, actual_slice[column], label=f"Actual {column}", linestyle='--')
+class Plotter:
+    def __init__(self, data):
+        self.data = data
 
-    plt.legend()
-    plt.title("VAR Model Forecast vs Actual Values")
-    plt.xlabel("Date")
-    plt.ylabel("Value")
-    plt.grid()
-    plt.tight_layout()
-    # 保存图像
-    plt.savefig(save_path)
-    plt.show()
-    print(f"Forecast plot saved at {save_path}")
+    def plot_normalized_data(self, output_path):
+        plt.figure(figsize=(12, 6))
+        for col in self.data.columns:
+            plt.plot(self.data.index, self.data[col], label=col)
 
-# 因果关系检验
-def granger_causality(data, variables, maxlag=5):
-    """
-    对指定变量进行 Granger 因果关系检验
-    """
-    for var in variables:
-        try:
-            print(f"\nTesting causality between {var[0]} and {var[1]}:")
-            grangercausalitytests(data[[var[0], var[1]]], maxlag=maxlag, verbose=True)
-        except Exception as e:
-            print(f"Error testing Granger causality for {var}: {e}")
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y/%m'))
+        plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+        plt.gcf().autofmt_xdate()
 
-# 主流程
+        plt.legend()
+        plt.title('Normalized Asset Prices (BTC, AGG, GLD, SPY)')
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        print(f"Plot saved to: {output_path}")
+        plt.show()
+
 def main():
-    # 获取当前脚本所在目录
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # 构造相对路径
-    csv_file_path = os.path.join(script_dir, "../../data/processed_data/processed_data.csv")
-    
-    # 加载数据
-    try:
-        returns = pd.read_csv(csv_file_path, index_col=0, parse_dates=True).pct_change().dropna()
-        print(f"Returns data starts from: {returns.index[0]}")
-        print(f"Returns data ends at: {returns.index[-1]}")
-    except FileNotFoundError:
-        print(f"File not found: {csv_file_path}")
-        return
-    except Exception as e:
-        print(f"Error loading data: {e}")
-        return
+    data_path = "/app/processed_data/processed_data.csv"
 
-    # 检查平稳性
-    for col in returns.columns:
-        check_stationarity(returns[col], name=f"{col} Returns")
+    processor = DataProcessor(data_path)
+    data = processor.load_data()
+    processor.check_missing_values()
+    processor.fill_missing_values()
+    processor.check_date_range()
+    normalized_data = processor.normalize_data()
 
-    # 构建 VAR 模型
-    var_result = build_var_model(returns, lags=5)
+    var_model = VARModel(data)
+    best_lag = var_model.select_best_lag()
+    var_model.fit_model(best_lag)
+    var_model.test_causality()
 
-    # Granger 因果关系
-    granger_causality(returns, [("BTC", "SPY"), ("SPY", "BTC")])
+    output_dir = "/app/results"
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, 'normalized_asset_prices.png')
 
-    # 预测与可视化
-    last_date = returns.index[-1]  # 获取历史数据的最后一个日期
-    forecast = forecast_var(var_result, steps=10, start_date=last_date + timedelta(days=1))
-    if not forecast.empty:
-        plot_forecast(forecast, returns, steps=10)
-    print(f"Forecast data starts from: {forecast.index[0]}")
-    print(f"Forecast data ends at: {forecast.index[-1]}")
+    plotter = Plotter(normalized_data)
+    plotter.plot_normalized_data(output_path)
 
 if __name__ == "__main__":
     main()
