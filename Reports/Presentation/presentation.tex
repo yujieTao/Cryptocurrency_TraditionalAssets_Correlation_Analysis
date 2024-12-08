@@ -1,0 +1,59 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage[round]{natbib}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={((},close={))}}
+
+\include{abbrs}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\title{Correlation Analysis on Cryptocurrency and Traditional Financial Assets}
+\author{Yujie Tao
+\\Zihan Liu
+\\Wenqian Yang}
+\institute{IT Skills for Research}
+\date{\today}
+\logo{\includegraphics[height=1cm]{pre tex code/Figure/UZH_pic.png}}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+
+\include{Gerneral_view}
+\include{Data_Des}
+\include{Findings}
+
+
+% \include{DataProcessing}
+
+% % \include{Data Overview}
+
+% \include{ResultsAnalysis}
+
+
+% \include{Conclusion}
+
+
+\end{document}
