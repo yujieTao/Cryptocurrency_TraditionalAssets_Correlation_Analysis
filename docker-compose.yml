@@ -17,3 +17,21 @@ services:
     volumes:
       - ./src/data/processed_data:/app/processed_data  
       - ./src/models/results:/app/results 
+
+  visualization:
+    build:
+      context: ./src/visualization
+      dockerfile: Dockerfile
+    depends_on:
+      - models
+    volumes:
+      - ./src/data/processed_data:/app/processed_data
+      - ./src/models/results:/app/results
+      - ./src/models:/app/models 
+    ports:
+      - "8888:8888"
+    command: >
+      sh -c "jupyter nbconvert --to notebook --execute /app/visualization.ipynb --output /app/visualization_executed.ipynb &&
+      jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='' --NotebookApp.open_browser=False --allow-root"
+
+
