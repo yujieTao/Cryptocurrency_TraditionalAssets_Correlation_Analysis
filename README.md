@@ -51,24 +51,14 @@ Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands for python setup
+    ├── docker-compose.yml <- Docker configuration file which includes services running in the project
     ├── README.md          <- README file to give an overview about the project.
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   ├── presentation.pdf
-    │   ├── report.pdf
-    │   ├── figures        <- Generated graphics and figures to be used in reporting
-    │   └── tex_code       <- LaTeX source code for the report and the beamer slides
-    │       ├── presentation
-    │       └── report
+    ├── reports            <- Generated analysis as PDF, LaTeX, etc.
     │
-    ├── images         
-    │   ├── data_setup.png
-    │
-    └── src                <- Source code for use in this project.
+    └── src                
         │
-        ├── data           <- Scripts to download and generate data
-        │   ├── Dockerfile
-        │   ├── README.md   
+        ├── data           <- Scripts to download and process data
+        │   ├── Dockerfile 
         │   ├── requirements.txt
         │   ├── scripts
         │   │   ├── fetch_crypto_data.py
@@ -76,17 +66,15 @@ Project Organization
         │   │   └── process_data.py
         ├── models         <- Scripts to use model to analysis data
         │   ├── Dockerfile
-        │   ├── README.md
         │   ├── requirements.txt
         │   └── scripts
-        │        │—— Vector_Autoregression_model.py
+        │        │—— var.py
         |        |__ lstm.py
-        |        |__ correlation_analysis.py
-        └── visualization  <- Scripts to create exploratory and results oriented visualizations
+        |        |__ pearson.py
+        └── visualization  
             │—— Dockerfile
-            │—— README.md
             │—— requirements.txt
             └── scripts
-                └── visualization.ipynb
+                └── visualization.ipynb <- interative application for visualizing the findings
             
 --------
