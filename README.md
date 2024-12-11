@@ -73,7 +73,7 @@ Project Organization
         │   │   ├── fetch_crypto_data.py
         │   │   ├── fetch_traditional_assets.py
         │   │   └── process_data.py
-        ├── models         <- Scripts to make analysis on correlation between commodity and inflation
+        ├── models         <- Scripts to make analysis and model testing
         │   ├── Dockerfile
         │   ├── README.md
         │   ├── requirements.txt
