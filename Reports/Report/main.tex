@@ -41,13 +41,13 @@ In general, bitcoin shows a moderate positive correlation with the S\&P 500 Inde
 
 In what follows in this report, we first compose a rather detailed literature review on the related topic and then display and explain some findings from our own research.
 \section{Significance}
-Due to the unique anonymity characteristics, cryptocurrencies are highly susceptible to asset price bubbles, and the contagion of such bubbles poses risks to the stability of the financial system. In fact, the anonymity of cryptocurrency users and the absence of intermediary institutions result in low transaction costs, making cryptocurrencies an attractive medium of exchange for potential users \cite{baur2018b}. However, cryptocurrencies are also characterized by high volatility \cite{chu2017,katsiampa2017}, heavy tails \cite{osterrieder2017,gkillas2018,phillip2018}, and leverage effects \cite{phillip2018}, distinguishing them as a new asset class rather than merely a traditional medium of exchange \cite{yermack2015,baek2015,dyhrberg2016b}. Many investors now view cryptocurrencies as alternative assets or diversification tools to reduce portfolio risk \cite{tiwari2019}. Nevertheless, the cryptocurrency market remains less developed compared to traditional financial markets, and investor understanding of cryptocurrencies may not be entirely accurate. Consequently, the relationships between price volatility and risk spillovers between cryptocurrency and traditional financial markets are not yet fully understood.
-This study’s examination of the correlation between cryptocurrency and traditional financial asset markets holds critical implications for policymakers and investors. Understanding the evolving relationship between cryptocurrencies and traditional financial assets can assist policymakers in formulating appropriate regulations to prevent contagion effects and safeguard financial stability. For investors, assessing the risk spillovers and hedging effectiveness of cryptocurrencies against traditional financial assets enables the selection of the most efficient cryptocurrency for hedging purposes and the evaluation of optimal hedging strategies.
+Due to the unique anonymity characteristics, cryptocurrencies are highly susceptible to asset price bubbles, and the contagion of such bubbles poses risks to the stability of the financial system. In fact, the anonymity of cryptocurrency users and the absence of intermediary institutions result in low transaction costs, making cryptocurrencies an attractive medium of exchange for potential users \cite{baur2018b}. However, cryptocurrencies are also characterized by high volatility \cite{chu2017,katsiampa2017}, heavy tails \cite{osterrieder2017,gkillas2018,phillip2018}, and leverage effects \cite{phillip2018}, distinguishing them as a new asset class rather than a traditional medium of exchange \cite{yermack2015,baek2015,dyhrberg2016b}. Many investors now view cryptocurrencies as alternative assets or diversification tools to reduce portfolio risk \cite{tiwari2019}. However, the cryptocurrency market remains less developed compared to traditional financial markets, and investor understanding of cryptocurrencies may not be entirely accurate. Consequently, the relationships between price volatility and risk spillovers between cryptocurrency and traditional financial markets are not yet fully understood.
+This study’s examination of the correlation between cryptocurrency and traditional financial asset markets holds critical implications for policymakers and investors. Understanding the evolving relationship between cryptocurrencies and traditional financial assets can help policy makers formulate appropriate regulations to prevent contagion effects and protect financial stability. For investors, assessing the risk spillovers and hedging effectiveness of cryptocurrencies against traditional financial assets enables the selection of the most efficient cryptocurrency for hedging purposes and the evaluation of optimal hedging strategies.
 
 \section{Literature Review}
 
 \subsection{Studies on Price Volatility and Spillover Effects in the Cryptocurrency Market}
-\cite{mensi2019cryptocurrency} use wavelet coherence and cross-wavelet transform methods to examine the interconnectedness among Bitcoin and five major cryptocurrencies (Dash, Ethereum, Litecoin, Monero, and Ripple) and the impact on portfolio risk. \cite{sifat2019} apply vector error correction models (VECM), Granger causality tests, autoregressive moving average (ARMA), and autoregressive distributed lag (ARDL) models to explore the leading and lagging price relationship between Bitcoin and Ethereum, concluding that they mutually influence each other. \cite{katsiampa2019} utilize diagonal BEKK and asymmetric diagonal BEKK models on intraday data of eight cryptocurrencies to investigate the conditional volatility and co-volatility among major cryptocurrencies, finding high volatility and strong interdependencies within the market.
+\cite{mensi2019cryptocurrency} use wavelet coherence and cross-wavelet transform methods to examine the interconnectedness among Bitcoin and five major cryptocurrencies (Dash, Ethereum, Litecoin, Monero, and Ripple) and the impact on portfolio risk. \cite{sifat2019} apply vector error correction models (VECM), Granger causality tests, autoregressive moving average (ARMA), and autoregressive distributed lag (ARDL) models to explore the leading and lagging price relationship between Bitcoin and Ethereum, concluding that they mutually influence each other. \cite{katsiampa2019} utilize diagonal BEKK and asymmetric diagonal BEKK models on intraday data of eight cryptocurrencies to investigate conditional volatility and covolatility among major cryptocurrencies, finding high volatility and strong interdependencies within the market.
 
 \subsection{Studies on Price Volatility and Spillover Effects in Traditional Financial Markets}
 \cite{mensi2021oil} analyze the spillover effects and correlations between crude oil futures and various maturities in the European Bond Market (EBM), further assessing the hedging effectiveness of oil-bond portfolios during calm and turbulent periods. \cite{sun2021spillover} examine spillover effects between the China oil and stock markets at different time frequencies based on the trading frequency, finding that the role of stocks as the main source of volatility varies across time domains. \cite{peng2020dynamic} employ linear and non-linear Granger causality tests in combination with bivariate empirical model decomposition to evaluate multi-scale dynamic interactions and volatility effects between the China stock market and the global oil market.
@@ -70,7 +70,7 @@ In summary, in the literature it is well recognized that cryptocurrencies and tr
 
 This study aims to investigate the relationship between the cryptocurrency market and traditional financial asset markets. For the cryptocurrency market, we initially considered the major cryptocurrencies with high market capitalization. To ensure data representativeness and continuity, we focused on cryptocurrencies with active trading and notable volatility between 2021 and 2024, including Bitcoin, Ethereum, and Ripple. After further screening, Bitcoin was chosen as the primary representative of the cryptocurrency market, as it has consistently maintained a dominant market share (more than 60\% of the total market capitalization) and its price trends tend to reflect broader market movements in cryptocurrency. This selection ensures both the representativeness of the study and avoids data issues that smaller or recently launched cryptocurrencies might present.
 
-In terms of traditional financial assets, global oil prices currently refer to oil futures, with West Texas Intermediate (WTI) crude serving as a major global benchmark. WTI’s price movements often set the trend for other oil varieties. The US stock market, as one of the most influential capital markets worldwide, is represented by the S\&P 500 Index, which includes more than 500 publicly traded companies in various industries and is widely recognized as a suitable indicator of global stock market performance. Additionally, the gold futures market is a key component of the global financial market, and the COMEX gold futures, which are part of the New York Mercantile Exchange, are particularly influential, with the International Monetary Fund (IMF) and the US Treasury Department also trading on this exchange. COMEX gold futures often play a decisive role in global gold price trends. Consequently, this study uses the daily closing prices of the S\&P 500 Index, COMEX gold futures, and WTI crude oil futures to represent traditional financial asset market trends.
+In terms of traditional financial assets, global oil prices currently refer to oil futures, with West Texas Intermediate (WTI) crude serving as a major global benchmark. The price movements of WTI often set the trend for other oil varieties. The US stock market, as one of the most influential capital markets worldwide, is represented by the S\&P 500 Index, which includes more than 500 publicly traded companies in various industries and is widely recognized as a suitable indicator of global stock market performance. Additionally, the gold futures market is a key component of the global financial market, and the COMEX gold futures, which are part of the New York Mercantile Exchange, are particularly influential, with the International Monetary Fund (IMF) and the US Treasury Department also trading on this exchange. COMEX gold futures often play a decisive role in global gold price trends. Consequently, this study uses the daily closing prices of the S\&P 500 Index, COMEX gold futures, and WTI crude oil futures to represent traditional financial asset market trends.
  
 The data for this study cover daily closing prices from December 2021 to November 2024, totaling approximately 754 trading days.
 
@@ -83,36 +83,24 @@ To measure the daily returns of these assets, this study defines daily returns a
 
 
 
-\subsection{Descriptive analysis}
-\
 
-In this subsection, we report our main findings accompanied by some visualizing figures.
+In this section, we report our main findings accompanied by some visualization figures.
 
-\
+\subsection{Correlation Analysis}
 
-Figure \ref{prince} shows the daily closing price time series for Bitcoin (BTC) returns and three major financial assets: the S\&P 500 Index (SPY), COMEX Gold Futures (GLD), and Aggregate Oil Futures (AGG) . The results reveal a notable volatility in the trend of Bitcoin prices during the study period, with significant peaks observed from 2024 to 2025. The S\&P 500 Index has shown an overall steady trend. The gold and oil futures show a generally increasing trend.
-\
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{src/models/results/normalized_asset_prices.png}
-    \caption{Daily closing price time graphs for each asset}
-    \label{prince}
-    
-\end{figure}
 
 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{src/models/results/rolling_correlation_multi.png}
-    \caption{}
+    \caption{Correlation Analysis}
     \label{volatility}
     
 \end{figure}
 
 
-We analyze the correlations between Bitcoin and other major financial assets, focusing on both dynamic and static perspectives. Figure~\ref{volatility} illustrates the rolling 30-day correlation between Bitcoin and the S\&P 500 Index, COMEX Gold Futures and Aggregate Oil Futures from January 2022 to December 2024. Bitcoin’s correlation with the S\&P 500 Index remains predominantly positive, frequently ranging between 0.3 and 0.7, suggesting moderate alignment with equity markets and reflecting its behavior as a risky high-beta asset. Peaks near 0.7 indicate increased comovement, likely driven by macroeconomic events affecting both equities and cryptocurrencies. In contrast, the correlation of Bitcoin with COMEX Gold Futures shows substantial variability, oscillating between weakly negative and weakly positive values. Dips below -0.2 during early and late 2022 reflect instances where Bitcoin and gold likely acted as opposing risk hedges, while occasional positive correlations indicate alignment during broader economic shifts. The relationship of Bitcoin with aggregate oil futures is similarly inconsistent, with correlations fluctuating between -0.4 and 0.3, reflecting idiosyncratic shocks in the energy sector or the cryptocurrency market.
+We analyze the correlations between Bitcoin and other major financial assets, focusing on both dynamic and static perspectives. Figure~\ref{volatility} illustrates the rolling 30-day correlation between Bitcoin and the S\&P 500 Index, COMEX Gold Futures and Aggregate Oil Futures from January 2022 to December 2024. Bitcoin’s correlation with the S\&P 500 Index remains predominantly positive, frequently ranging between 0.3 and 0.7, suggesting moderate alignment with equity markets and reflecting its behavior as a risky high-beta asset. Peaks near 0.7 indicate an increase in comovement, likely driven by macroeconomic events that affect both equities and cryptocurrencies. In contrast, the correlation of Bitcoin with COMEX Gold Futures shows substantial variability, oscillating between weakly negative and weakly positive values. Dips below -0.2 during early and late 2022 reflect instances where Bitcoin and gold likely acted as opposing risk hedges, while occasional positive correlations indicate alignment during broader economic shifts. The relationship of Bitcoin with aggregate oil futures is similarly inconsistent, with correlations fluctuating between -0.4 and 0.3, reflecting idiosyncratic shocks in the energy sector or the cryptocurrency market.
 
 Figure~\ref{heat} further visualizes the pairwise correlations between different asset sectors. Among these, Bitcoin shows the strongest static correlation with the S\&P 500 Index (0.50), while its correlation with Gold Futures is weaker (0.17), highlighting Bitcoin’s unique speculative nature compared to the traditional role of gold as a safe haven. Similarly, Bitcoin exhibits a weak correlation with Oil Futures (0.16). Among traditional assets, Gold Futures and Oil Futures show a moderate positive correlation (0.48), likely driven by shared sensitivity to macroeconomic factors such as inflation and geopolitical risks. The general pattern underscores Bitcoin’s evolving role as both a speculative instrument and a potential diversification tool, influenced by macroeconomic trends, risk sentiment, and liquidity dynamics, while maintaining relative independence from commodities.
 
@@ -127,7 +115,26 @@ Figure~\ref{heat} further visualizes the pairwise correlations between different
 
 \subsection{Model}
 
-In this section, we conduct an LSTM-based model to analyze and extract relationships between financial assets using time series data.
+In this section, we conduct Vector Autoregression Model and LSTM-based model to analyze and extract relationships between financial assets using time series data.
+
+\subsubsection{Vector Autoregression Model}
+
+The vector autoregression model (VAR) is particularly valuable in identifying how past movements in one asset influence the future dynamics of others. The graph displays the normalized daily closing prices of Bitcoin (BTC), the S\&P 500 Index (SPY), COMEX Gold Futures (GLD), and Aggregate Oil Futures (AGG), providing a comparative view of their dynamics over the study period.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{src/models/results/normalized_asset_prices.png}
+    \caption{Daily closing price time graphs for each asset}
+    \label{prince}
+    
+\end{figure}
+
+A notable observation is the significant volatility of Bitcoin, particularly during the period from 2024 to 2025, where sharp peaks and troughs reflect its highly speculative nature and susceptibility to market sentiment. This contrasts sharply with the relatively steady performance of S\&P 500 Index and the generally upward trends observed for COMEX Gold Futures and Aggregate Oil Futures, which align with the traditional roles of gold and oil as macroeconomically sensitive assets. The model also captures a stronger mutual influence between these traditional assets, reflecting their shared sensitivity to macroeconomic factors such as inflation, interest rate changes, and global economic conditions. 
+
+ 
+
+
+
 
 
 \subsubsection{Long Short-Term Memory Model}
@@ -155,11 +162,10 @@ In conclusion, while the correlation heatmap indicates that the LSTM model succe
 \section{Conclusion}
 
 
-This study provides an empirical analysis of the dynamic relationships between Bitcoin and traditional financial assets, including the S\&P 500 Index, COMEX Gold Futures, and WTI Crude Oil Futures. By leveraging both traditional Pearson correlation analysis and an LSTM-based modeling approach, we uncover distinct insights into the interdependencies among these assets. The Pearson correlation analysis highlights the linear relationships, revealing that Bitcoin demonstrates moderate positive correlations with the S\&P 500 Index but weaker and more variable connections with Gold and Oil Futures. These findings reflect Bitcoin’s evolving role as a speculative asset and its occasional behavior as a diversification tool.
-
+This study provides an empirical analysis of the dynamic relationships between Bitcoin and traditional financial assets, including the S\&P 500 Index, COMEX Gold Futures, and WTI Crude Oil Futures. By leveraging both traditional Pearson correlation analysis and an LSTM-based modeling approach, we uncover distinct insights into the interdependencies among these assets. The Pearson correlation analysis highlights the linear relationships, revealing that Bitcoin demonstrates moderate positive correlations with the S\&P 500 Index but weaker and more variable connections with Gold and Oil Futures. These findings reflect Bitcoin’s evolving role as a speculative asset and its occasional behavior as a diversification tool. Var model shows that Bitcoin exhibits a highly volatile and speculative nature, showing weaker and less consistent correlations with traditional assets like the \S&P 500, gold, and oil, which are more influenced by macroeconomic factors and exhibit stable, predictable trends.
 However, the LSTM-based correlation heatmap reveals stronger correlations across all assets, suggesting that the model captures shared systemic dynamics, such as responses to macroeconomic factors, liquidity conditions, and market sentiment shifts. While the LSTM model effectively identifies broader market trends and temporal dependencies, it appears less adept at isolating the unique characteristics of individual assets, potentially due to overfitting or the inherent nature of data preprocessing.
 
-This study highlights the importance of combining traditional statistical approaches with advanced machine learning models to gain a comprehensive understanding of asset relationships. However, the results underscore the need for caution when interpreting model-driven correlations, as they may amplify relationships influenced by data transformations or systemic trends. Future research could refine the LSTM model to better differentiate asset-specific behaviors while maintaining its strength in capturing complex temporal and nonlinear relationships. These findings provide valuable implications for policy makers and investors, providing insight into risk management, hedging strategies, and the evolving interplay between cryptocurrencies and traditional financial markets.
+This study highlights the importance of combining traditional statistical approaches with advanced machine learning models to gain a comprehensive understanding of asset relationships. However, the results underscore the need for caution when interpreting model-driven correlations, as they may amplify relationships influenced by data transformations or systemic trends. Future research could refine the LSTM model to better differentiate asset-specific behaviors while maintaining its strength in capturing complex temporal and non-linear relationships. These findings provide valuable implications for policy makers and investors, providing insight into risk management, hedging strategies, and the evolving interplay between cryptocurrencies and traditional financial markets.
 
 
 
