@@ -79,10 +79,6 @@ Project Organization
         │   ├── requirements.txt
         │   └── scripts
         │        │—— Vector_Autoregression_model.py
-        │        │—— pycache_
-        │            │—— Vector_Autoregression_model.cpython-310.pyc
-        │            │—— correlation_analysis.cpython-310.pyc
-        │            └── lstm.cpython-310.pyc
         └── visualization  <- Scripts to create exploratory and results oriented visualizations
             │—— Dockerfile
             │—— README.md

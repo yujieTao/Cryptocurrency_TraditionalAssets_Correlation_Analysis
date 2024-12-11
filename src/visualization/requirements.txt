@@ -1,6 +1,5 @@
 pandas==1.5.3
 numpy==1.24.3
-torch==2.0.1
 statsmodels
 # Visualization
 matplotlib==3.7.1

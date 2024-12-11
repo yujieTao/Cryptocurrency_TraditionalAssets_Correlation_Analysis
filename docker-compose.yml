@@ -8,25 +8,24 @@ services:
     volumes:
       - ./src/data/processed_data:/app/processed_data
 
-  models:
-    build:
-      context: ./src/models
-      dockerfile: Dockerfile
-    depends_on:
-      - data
-    volumes:
-      - ./src/data/processed_data:/app/processed_data  
-      - ./src/models/results:/app/results 
+  # models:
+  #   build:
+  #     context: ./src/models
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - data
+  #   volumes:
+  #     - ./src/data/processed_data:/app/processed_data  
+  #     - ./src/models/results:/app/results
 
   visualization:
     build:
       context: ./src/visualization
       dockerfile: Dockerfile
     depends_on:
-      - models
+      - data
     volumes:
       - ./src/data/processed_data:/app/processed_data
-      - ./src/models/results:/app/results
       - ./src/models:/app/models 
     ports:
       - "8888:8888"
