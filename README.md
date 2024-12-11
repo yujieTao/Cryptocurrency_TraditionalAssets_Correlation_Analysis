@@ -15,7 +15,7 @@ Team members:
 
 Project description
 ------------
-We adopt the data science project structure recommended by Cookiecutter. The project is developed using R and Docker, with data being retrieved through APIs, enabling automated updates for data, visualizations, reports, and the Shiny App. Large data files are managed using Git LFS, and there are plans to transition to a cloud-based database system in the future.
+We adopt the data science project structure recommended by Cookiecutter. The project is developed using python and Docker, with data being retrieved through APIs, enabling automated updates for data, visualizations, reports, and the Shiny App. 
 
 
 The update of the data, plots and report can be done running the following commands: 
@@ -65,7 +65,7 @@ Project Organization
     │
     └── src                <- Source code for use in this project.
         │
-        ├── data           <- Scripts to download or generate data
+        ├── data           <- Scripts to download and generate data
         │   ├── Dockerfile
         │   ├── README.md   
         │   ├── requirements.txt
@@ -73,12 +73,14 @@ Project Organization
         │   │   ├── fetch_crypto_data.py
         │   │   ├── fetch_traditional_assets.py
         │   │   └── process_data.py
-        ├── models         <- Scripts to make analysis and model testing
+        ├── models         <- Scripts to use model to analysis data
         │   ├── Dockerfile
         │   ├── README.md
         │   ├── requirements.txt
         │   └── scripts
         │        │—— Vector_Autoregression_model.py
+        |        |__ lstm.py
+        |        |__ correlation_analysis.py
         └── visualization  <- Scripts to create exploratory and results oriented visualizations
             │—— Dockerfile
             │—— README.md
