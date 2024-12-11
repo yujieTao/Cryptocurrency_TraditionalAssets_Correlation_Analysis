@@ -30,7 +30,8 @@ First, build the Docker containers by running the following command:
 ```sh
 docker-compose build
 ```
-
+This step may take a little longer time depends on the internet speed because we need to
+install torch which is large than other packages.
 ### 2. Run the visualization Container
 
 Next, run the container with the following command:

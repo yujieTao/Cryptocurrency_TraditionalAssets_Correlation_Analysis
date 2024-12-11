@@ -44,52 +44,72 @@ class VARModel:
         print(self.result.summary())
 
     def test_causality(self):
+        results = []
         for col in self.data.columns:
             if col != 'BTC':
                 test = self.result.test_causality('BTC', col, kind='f')
+                results.append({
+                    'cause': 'BTC',
+                    'effect': col,
+                    'p_value': test.pvalue,
+                    'f_stat': test.test_statistic
+                })
                 print(f"Causality of BTC on {col}:")
                 print(test.summary())
+        return results 
 
 class Plotter:
     def __init__(self, data):
         self.data = data
 
-    def plot_normalized_data(self, output_path):
+    def plot_normalized_data_with_causality(self, output_path, causality_results):
         plt.figure(figsize=(12, 6))
+
         for col in self.data.columns:
             plt.plot(self.data.index, self.data[col], label=col)
+        for result in causality_results:
+            if result['p_value'] < 0.05: 
+                effect = result['effect']
+                max_date = self.data[effect].idxmax()
+                max_value = self.data[effect].max()
+                plt.annotate(
+                    f"BTC → {effect}",
+                    xy=(max_date, max_value),
+                    xytext=(max_date, max_value + 0.1),
+                    arrowprops=dict(facecolor='red', arrowstyle='->'),
+                    fontsize=10,
+                    color='red'
+                )
 
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y/%m'))
         plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
         plt.gcf().autofmt_xdate()
 
         plt.legend()
-        plt.title('Normalized Asset Prices (BTC, AGG, GLD, SPY)')
+        plt.title('Normalized Asset Prices with Significant Causality (BTC → Others)')
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
-        print(f"Plot saved to: {output_path}")
+        print(f"Plot with causality annotations saved to: {output_path}")
         plt.show()
 
-def main():
-    data_path = "/app/processed_data/processed_data.csv"
+    def plot_weak_correlation(self, output_path, threshold=0.2):
+        correlation_matrix = self.data.corr()
+        btc_correlations = correlation_matrix['BTC']
+        weakly_correlated_assets = btc_correlations[btc_correlations.abs() < threshold].index
 
-    processor = DataProcessor(data_path)
-    data = processor.load_data()
-    processor.check_missing_values()
-    processor.fill_missing_values()
-    processor.check_date_range()
-    normalized_data = processor.normalize_data()
+        if len(weakly_correlated_assets) == 0:
+            print("No assets found with weak correlation to BTC.")
+            return
 
-    var_model = VARModel(data)
-    best_lag = var_model.select_best_lag()
-    var_model.fit_model(best_lag)
-    var_model.test_causality()
+        plt.figure(figsize=(12, 6))
+        for asset in weakly_correlated_assets:
+            plt.plot(self.data.index, self.data[asset], label=asset)
 
-    output_dir = "/app/results"
-    os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, 'normalized_asset_prices.png')
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y/%m'))
+        plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+        plt.gcf().autofmt_xdate()
 
-    plotter = Plotter(normalized_data)
-    plotter.plot_normalized_data(output_path)
-
-if __name__ == "__main__":
-    main()
+        plt.legend()
+        plt.title(f'Assets Weakly Correlated with BTC (|correlation| < {threshold})')
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        print(f"Weak correlation plot saved to: {output_path}")
+        plt.show()

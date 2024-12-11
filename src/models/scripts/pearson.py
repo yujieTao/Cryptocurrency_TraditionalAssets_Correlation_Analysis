@@ -26,15 +26,6 @@ def analyze_correlation(returns, output_path):
     print(f"Correlation matrix saved to {output_path}")
     return corr_matrix
 
-def plot_correlation_heatmap(corr_matrix, title, output_path):
-    ensure_output_directory(os.path.dirname(output_path))
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
-    plt.title(title)
-    plt.savefig(output_path)
-    plt.close()
-    print(f"Correlation heatmap saved to {output_path}")
-
 def rolling_correlation_multi(data, base_asset, compare_assets, window, output_path):
     ensure_output_directory(os.path.dirname(output_path))
     missing_assets = [asset for asset in compare_assets if asset not in data.columns]
@@ -58,24 +49,4 @@ def rolling_correlation_multi(data, base_asset, compare_assets, window, output_p
     plt.close()
     print(f"Rolling correlation plot saved to {output_path}")
 
-def main(file_path, output_dir):
-    ensure_output_directory(output_dir)
 
-    data = load_data(file_path)
-    returns = calculate_returns(data)
-
-    corr_csv = os.path.join(output_dir, "correlation_matrix.csv")
-    corr_matrix = analyze_correlation(returns, output_path=corr_csv)
-
-    heatmap_path = os.path.join(output_dir, "correlation_heatmap.png")
-    plot_correlation_heatmap(corr_matrix, title="Correlation Heatmap", output_path=heatmap_path)
-
-    rolling_corr_path = os.path.join(output_dir, "rolling_correlation_multi.png")
-    rolling_correlation_multi(returns, base_asset="BTC", compare_assets=["SPY", "GLD", "AGG"], window=30, output_path=rolling_corr_path)
-
-    print("All analyses completed!")
-
-if __name__ == "__main__":
-    input_file = "/app/processed_data/processed_data.csv"
-    output_dir = "/app/results"
-    main(input_file, output_dir)
