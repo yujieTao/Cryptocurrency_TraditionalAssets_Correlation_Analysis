@@ -15,7 +15,7 @@ Team members:
 
 Project description
 ------------
-We adopt the data science project structure recommended by Cookiecutter. The project is developed using python and Docker, with data being retrieved through APIs, enabling automated updates for data, visualizations, reports, and the Shiny App. 
+We adopt the data science project structure recommended by Cookiecutter. The project is developed using python and Docker, with data being retrieved through APIs, enabling automated updates for data, visualizations, reports, and the Jupyter Notebook. 
 
 
 The update of the data, plots and report can be done running the following commands: 
